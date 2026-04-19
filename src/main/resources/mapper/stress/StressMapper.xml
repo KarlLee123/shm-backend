@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ansteel.stress.mapper.StressMapper">
+
+    <!-- 原始数据入库 -->
+    <insert id="insertRawData"
+            parameterType="com.ansteel.stress.dto.StressRawUploadDTO">
+        INSERT INTO stress_data (
+            sensor_id,
+            force_value,
+            displacement_value,
+            collect_time,
+            verify_status,
+            create_time,
+            deleted
+        ) VALUES (
+                     #{sensorId},
+                     #{forceValue},
+                     #{displacementValue},
+                     #{collectTime},
+                     0,
+                     NOW(),
+                     0
+                 )
+    </insert>
+
+    <!-- 查询指定记录 -->
+    <select id="selectBySensorIdAndCollectTime"
+            resultType="com.ansteel.stress.entity.StressDataEntity">
+        SELECT
+            id,
+            sensor_id AS sensorId,
+            force_value AS forceValue,
+            displacement_value AS displacementValue,
+            calc_stress AS calcStress,
+            verified_stress AS verifiedStress,
+            verify_status AS verifyStatus,
+            verify_remark AS verifyRemark,
+            collect_time AS collectTime,
+            calc_time AS calcTime,
+            verify_time AS verifyTime,
+            create_time AS createTime,
+            deleted
+        FROM stress_data
+        WHERE sensor_id = #{sensorId}
+          AND collect_time = #{collectTime}
+          AND deleted = 0
+        LIMIT 1
+    </select>
+
+    <!-- Python 结果回写 -->
+    <update id="updateResultData"
+            parameterType="com.ansteel.stress.dto.StressResultUploadDTO">
+        UPDATE stress_data
+        SET calc_stress = #{calcStress},
+            calc_time = #{calcTime},
+            verify_status = 1
+        WHERE sensor_id = #{sensorId}
+          AND collect_time = #{collectTime}
+          AND deleted = 0
+          AND verify_status IN (0, 3)
+    </update>
+
+    <!-- 核验通过 -->
+    <update id="passVerify"
+            parameterType="com.ansteel.stress.dto.StressVerifyDTO">
+        UPDATE stress_data
+        SET verified_stress = #{verifiedStress},
+            verify_time = #{verifyTime},
+            verify_remark = NULL,
+            verify_status = 2
+        WHERE sensor_id = #{sensorId}
+          AND collect_time = #{collectTime}
+          AND deleted = 0
+          AND verify_status = 1
+    </update>
+
+    <!-- 核验打回 -->
+    <update id="failVerify"
+            parameterType="com.ansteel.stress.dto.StressVerifyDTO">
+        UPDATE stress_data
+        SET verify_remark = #{verifyRemark},
+            verify_time = #{verifyTime},
+            verify_status = 3
+        WHERE sensor_id = #{sensorId}
+          AND collect_time = #{collectTime}
+          AND deleted = 0
+          AND verify_status = 1
+    </update>
+
+    <!-- 最新一条核验通过数据 -->
+    <select id="selectLatestVerified"
+            resultType="com.ansteel.stress.vo.StressMonitorVO">
+        SELECT
+            sensor_id AS sensorId,
+            force_value AS forceValue,
+            displacement_value AS displacementValue,
+            calc_stress AS calcStress,
+            verified_stress AS verifiedStress,
+            verify_status AS verifyStatus,
+            verify_remark AS verifyRemark,
+            collect_time AS collectTime,
+            calc_time AS calcTime,
+            verify_time AS verifyTime
+        FROM stress_data
+        WHERE sensor_id = #{sensorId}
+          AND deleted = 0
+          AND verify_status = 2
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+
+    <!-- 历史核验通过数据 -->
+    <select id="selectHistoryVerified"
+            resultType="com.ansteel.stress.vo.StressMonitorVO">
+        SELECT
+        sensor_id AS sensorId,
+        force_value AS forceValue,
+        displacement_value AS displacementValue,
+        calc_stress AS calcStress,
+        verified_stress AS verifiedStress,
+        verify_status AS verifyStatus,
+        verify_remark AS verifyRemark,
+        collect_time AS collectTime,
+        calc_time AS calcTime,
+        verify_time AS verifyTime
+        FROM stress_data
+        WHERE sensor_id = #{sensorId}
+        AND deleted = 0
+        AND verify_status = 2
+        <if test="startTime != null">
+            AND collect_time <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND collect_time <![CDATA[ <= ]]> #{endTime}
+        </if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 旧版：查询最新一条原始数据 -->
+    <select id="selectLatestRaw"
+            resultType="com.ansteel.stress.vo.StressRawVO">
+        SELECT
+            sensor_id AS sensorId,
+            force_value AS forceValue,
+            displacement_value AS displacementValue,
+            collect_time AS collectTime
+        FROM stress_data
+        WHERE sensor_id = #{sensorId}
+          AND deleted = 0
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+
+    <!-- 旧版：查询历史原始数据 -->
+    <select id="selectHistoryRaw"
+            resultType="com.ansteel.stress.vo.StressRawVO">
+        SELECT
+        sensor_id AS sensorId,
+        force_value AS forceValue,
+        displacement_value AS displacementValue,
+        collect_time AS collectTime
+        FROM stress_data
+        WHERE sensor_id = #{sensorId}
+        AND deleted = 0
+        <if test="startTime != null">
+            AND collect_time <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND collect_time <![CDATA[ <= ]]> #{endTime}
+        </if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

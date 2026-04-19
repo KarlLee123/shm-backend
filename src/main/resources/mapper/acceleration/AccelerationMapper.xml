@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ansteel.acceleration.mapper.AccelerationMapper">
+
+    <insert id="insertRawData"
+            parameterType="com.ansteel.acceleration.dto.AccelerationRawUploadDTO">
+        INSERT INTO acceleration_data (
+            sensor_id,
+            acceleration_value,
+            collect_time,
+            create_time,
+            deleted
+        ) VALUES (
+                     #{sensorId},
+                     #{accelerationValue},
+                     #{collectTime},
+                     NOW(),
+                     0
+                 )
+    </insert>
+
+    <select id="selectLatestRaw"
+            resultType="com.ansteel.acceleration.vo.AccelerationRawVO">
+        SELECT
+            sensor_id AS sensorId,
+            acceleration_value AS accelerationValue,
+            collect_time AS collectTime
+        FROM acceleration_data
+        WHERE sensor_id = #{sensorId}
+          AND deleted = 0
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectHistoryRaw"
+            resultType="com.ansteel.acceleration.vo.AccelerationRawVO">
+        SELECT
+        sensor_id AS sensorId,
+        acceleration_value AS accelerationValue,
+        collect_time AS collectTime
+        FROM acceleration_data
+        WHERE sensor_id = #{sensorId}
+        AND deleted = 0
+        <if test="startTime != null">
+            AND collect_time <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND collect_time <![CDATA[ <= ]]> #{endTime}
+        </if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

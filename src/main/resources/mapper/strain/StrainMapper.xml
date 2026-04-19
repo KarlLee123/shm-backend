@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ansteel.strain.mapper.StrainMapper">
+
+    <insert id="insertRawData"
+            parameterType="com.ansteel.strain.dto.StrainRawUploadDTO">
+        INSERT INTO strain_data (
+            sensor_id,
+            strain_value,
+            collect_time,
+            create_time,
+            deleted
+        ) VALUES (
+                     #{sensorId},
+                     #{strainValue},
+                     #{collectTime},
+                     NOW(),
+                     0
+                 )
+    </insert>
+
+    <select id="selectLatestRaw"
+            resultType="com.ansteel.strain.vo.StrainRawVO">
+        SELECT
+            sensor_id AS sensorId,
+            strain_value AS strainValue,
+            collect_time AS collectTime
+        FROM strain_data
+        WHERE sensor_id = #{sensorId}
+          AND deleted = 0
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectHistoryRaw"
+            resultType="com.ansteel.strain.vo.StrainRawVO">
+        SELECT
+        sensor_id AS sensorId,
+        strain_value AS strainValue,
+        collect_time AS collectTime
+        FROM strain_data
+        WHERE sensor_id = #{sensorId}
+        AND deleted = 0
+        <if test="startTime != null">
+            AND collect_time <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND collect_time <![CDATA[ <= ]]> #{endTime}
+        </if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+
+</mapper>
