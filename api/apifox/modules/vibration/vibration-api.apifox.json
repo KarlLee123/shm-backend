@@ -1,0 +1,423 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Ansteel SHM - Vibration Module API",
+    "version": "1.0.0",
+    "description": "振动模块联调最终版（可导入 APIFox）。\n\n已按当前直采实时模块字段对齐：VibrationUploadDTO / VibrationQueryDTO。\n模块目标：上传原始数据 -> 查询 latest -> 查询 history。"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Vibration",
+      "description": "振动模块"
+    }
+  ],
+  "paths": {
+    "/api/sensor/vibration/upload": {
+      "post": {
+        "tags": [
+          "Vibration"
+        ],
+        "summary": "原始振动数据上传",
+        "description": "接收传感器/设备上传的原始数据，写入 vibration_data。",
+        "operationId": "uploadVibrationRawData",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VibrationUploadDTO"
+              },
+              "examples": {
+                "normal": {
+                  "summary": "正常上传",
+                  "value": {
+                    "sensorId": "SENSOR_001",
+                    "vibrationValue": 12.34,
+                    "collectTime": "2026-04-18 14:30:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "上传成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericSuccessResponse"
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "code": 200,
+                      "message": "success",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务端错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/vibration/latest": {
+      "post": {
+        "tags": [
+          "Vibration"
+        ],
+        "summary": "查询最新振动数据",
+        "description": "根据 sensorId 查询指定传感器最新一条数据。",
+        "operationId": "getLatestVibrationData",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VibrationLatestQueryDTO"
+              },
+              "examples": {
+                "bySensor": {
+                  "summary": "按传感器查询",
+                  "value": {
+                    "sensorId": "SENSOR_001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "查询成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VibrationLatestResponse"
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "code": 200,
+                      "message": "success",
+                      "data": {
+                        "sensorId": "SENSOR_001",
+                        "vibrationValue": 12.34,
+                        "collectTime": "2026-04-18 14:30:00"
+                      }
+                    }
+                  },
+                  "empty": {
+                    "value": {
+                      "code": 200,
+                      "message": "success",
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务端错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/vibration/history": {
+      "post": {
+        "tags": [
+          "Vibration"
+        ],
+        "summary": "查询振动历史数据",
+        "description": "根据 sensorId + 时间范围查询历史数据列表。",
+        "operationId": "getVibrationHistoryData",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VibrationHistoryQueryDTO"
+              },
+              "examples": {
+                "normal": {
+                  "summary": "正常历史查询",
+                  "value": {
+                    "sensorId": "SENSOR_001",
+                    "startTime": "2026-04-18 00:00:00",
+                    "endTime": "2026-04-18 23:59:59",
+                    "limit": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "查询成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VibrationHistoryResponse"
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "code": 200,
+                      "message": "success",
+                      "data": [
+                        {
+                          "sensorId": "SENSOR_001",
+                          "vibrationValue": 12.34,
+                          "collectTime": "2026-04-18 14:30:00"
+                        },
+                        {
+                          "sensorId": "SENSOR_001",
+                          "vibrationValue": 12.84,
+                          "collectTime": "2026-04-18 15:00:00"
+                        }
+                      ]
+                    }
+                  },
+                  "empty": {
+                    "value": {
+                      "code": 200,
+                      "message": "success",
+                      "data": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务端错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VibrationUploadDTO": {
+        "type": "object",
+        "required": [
+          "sensorId",
+          "vibrationValue",
+          "collectTime"
+        ],
+        "properties": {
+          "sensorId": {
+            "type": "string",
+            "description": "传感器ID",
+            "example": "SENSOR_001"
+          },
+          "vibrationValue": {
+            "type": "number",
+            "description": "振动值",
+            "example": 12.34
+          },
+          "collectTime": {
+            "type": "string",
+            "description": "采集时间，格式固定 yyyy-MM-dd HH:mm:ss",
+            "example": "2026-04-18 14:30:00"
+          }
+        }
+      },
+      "VibrationLatestQueryDTO": {
+        "type": "object",
+        "required": [
+          "sensorId"
+        ],
+        "properties": {
+          "sensorId": {
+            "type": "string",
+            "description": "传感器ID",
+            "example": "SENSOR_001"
+          }
+        }
+      },
+      "VibrationHistoryQueryDTO": {
+        "type": "object",
+        "required": [
+          "sensorId"
+        ],
+        "properties": {
+          "sensorId": {
+            "type": "string",
+            "description": "传感器ID",
+            "example": "SENSOR_001"
+          },
+          "startTime": {
+            "type": "string",
+            "description": "开始时间，格式固定 yyyy-MM-dd HH:mm:ss",
+            "example": "2026-04-18 00:00:00"
+          },
+          "endTime": {
+            "type": "string",
+            "description": "结束时间，格式固定 yyyy-MM-dd HH:mm:ss",
+            "example": "2026-04-18 23:59:59"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "返回条数限制，后端会做兜底和截断",
+            "example": 100,
+            "minimum": 1
+          }
+        }
+      },
+      "VibrationRawVO": {
+        "type": "object",
+        "properties": {
+          "sensorId": {
+            "type": "string",
+            "example": "SENSOR_001"
+          },
+          "vibrationValue": {
+            "type": "number",
+            "example": 12.34
+          },
+          "collectTime": {
+            "type": "string",
+            "example": "2026-04-18 14:30:00"
+          }
+        }
+      },
+      "GenericSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {}
+        }
+      },
+      "GenericErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 500
+          },
+          "message": {
+            "type": "string",
+            "example": "failed"
+          },
+          "data": {
+            "nullable": true
+          }
+        }
+      },
+      "VibrationLatestResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VibrationRawVO"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "VibrationHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VibrationRawVO"
+            }
+          }
+        }
+      }
+    }
+  }
+}
