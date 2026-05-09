@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ansteel.vibratingwire.mapper.VibratingWireMapper">
+    <insert id="insertRawData" parameterType="com.ansteel.vibratingwire.dto.VibratingWireRawUploadDTO">
+        INSERT INTO vibrating_wire_data
+        (sensor_id, device_no, channel_no, frequency, temperature, tension, strain_value, collect_time, create_time, deleted)
+        VALUES
+        (#{sensorId}, #{deviceNo}, #{channelNo}, #{frequency}, #{temperature}, #{tension}, #{strainValue}, #{collectTime}, NOW(), 0)
+    </insert>
+    <select id="selectLatestRaw" resultType="com.ansteel.vibratingwire.vo.VibratingWireRawVO">
+        SELECT sensor_id AS sensorId, device_no AS deviceNo, channel_no AS channelNo,
+               frequency AS frequency, temperature AS temperature,
+               tension AS tension, strain_value AS strainValue, collect_time AS collectTime
+        FROM vibrating_wire_data
+        WHERE sensor_id = #{sensorId} AND deleted = 0
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+    <select id="selectHistoryRaw" resultType="com.ansteel.vibratingwire.vo.VibratingWireRawVO">
+        SELECT sensor_id AS sensorId, device_no AS deviceNo, channel_no AS channelNo,
+               frequency AS frequency, temperature AS temperature,
+               tension AS tension, strain_value AS strainValue, collect_time AS collectTime
+        FROM vibrating_wire_data
+        WHERE sensor_id = #{sensorId} AND deleted = 0
+        <if test="startTime != null">AND collect_time &gt;= #{startTime}</if>
+        <if test="endTime != null">AND collect_time &lt;= #{endTime}</if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+</mapper>

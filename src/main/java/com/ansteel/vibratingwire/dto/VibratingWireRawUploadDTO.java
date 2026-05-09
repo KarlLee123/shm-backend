@@ -1,0 +1,30 @@
+package com.ansteel.vibratingwire.dto;
+
+import java.math.BigDecimal;
+
+public class VibratingWireRawUploadDTO {
+    private String sensorId;
+    private String deviceNo;
+    private String channelNo;
+    private BigDecimal frequency;
+    private BigDecimal temperature;
+    private BigDecimal tension;
+    private BigDecimal strainValue;
+    private String collectTime;
+    public String getSensorId() { return sensorId; }
+    public void setSensorId(String sensorId) { this.sensorId = sensorId; }
+    public String getDeviceNo() { return deviceNo; }
+    public void setDeviceNo(String deviceNo) { this.deviceNo = deviceNo; }
+    public String getChannelNo() { return channelNo; }
+    public void setChannelNo(String channelNo) { this.channelNo = channelNo; }
+    public BigDecimal getFrequency() { return frequency; }
+    public void setFrequency(BigDecimal frequency) { this.frequency = frequency; }
+    public BigDecimal getTemperature() { return temperature; }
+    public void setTemperature(BigDecimal temperature) { this.temperature = temperature; }
+    public BigDecimal getTension() { return tension; }
+    public void setTension(BigDecimal tension) { this.tension = tension; }
+    public BigDecimal getStrainValue() { return strainValue; }
+    public void setStrainValue(BigDecimal strainValue) { this.strainValue = strainValue; }
+    public String getCollectTime() { return collectTime; }
+    public void setCollectTime(String collectTime) { this.collectTime = collectTime; }
+}

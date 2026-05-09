@@ -10,7 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         "com.ansteel.displacement.mapper",
         "com.ansteel.acceleration.mapper",
         "com.ansteel.strain.mapper",
-        "com.ansteel.vibration.mapper"
+        "com.ansteel.vibration.mapper",
+        "com.ansteel.fiber.mapper",
+        "com.ansteel.vibratingwire.mapper",
+        "com.ansteel.vibrationdat.mapper"
 })
 public class AnsteelShmBackendApplication {
 

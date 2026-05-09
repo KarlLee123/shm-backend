@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ansteel.vibrationdat.mapper.VibrationDatMapper">
+    <insert id="insertRawData" parameterType="com.ansteel.vibrationdat.dto.VibrationDatUploadDTO">
+        INSERT INTO vibration_dat_data
+        (sensor_id, device_no, file_name, file_path, file_size, sample_rate, channel_count, point_count, duration_seconds, raw_content, collect_time, create_time, deleted)
+        VALUES
+        (#{sensorId}, #{deviceNo}, #{fileName}, #{filePath}, #{fileSize}, #{sampleRate}, #{channelCount}, #{pointCount}, #{durationSeconds}, #{rawContent}, #{collectTime}, NOW(), 0)
+    </insert>
+    <select id="selectLatestRaw" resultType="com.ansteel.vibrationdat.vo.VibrationDatVO">
+        SELECT sensor_id AS sensorId, device_no AS deviceNo, file_name AS fileName, file_path AS filePath,
+               file_size AS fileSize, sample_rate AS sampleRate, channel_count AS channelCount,
+               point_count AS pointCount, duration_seconds AS durationSeconds, collect_time AS collectTime
+        FROM vibration_dat_data
+        WHERE sensor_id = #{sensorId} AND deleted = 0
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+    <select id="selectHistoryRaw" resultType="com.ansteel.vibrationdat.vo.VibrationDatVO">
+        SELECT sensor_id AS sensorId, device_no AS deviceNo, file_name AS fileName, file_path AS filePath,
+               file_size AS fileSize, sample_rate AS sampleRate, channel_count AS channelCount,
+               point_count AS pointCount, duration_seconds AS durationSeconds, collect_time AS collectTime
+        FROM vibration_dat_data
+        WHERE sensor_id = #{sensorId} AND deleted = 0
+        <if test="startTime != null">AND collect_time &gt;= #{startTime}</if>
+        <if test="endTime != null">AND collect_time &lt;= #{endTime}</if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+</mapper>

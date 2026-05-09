@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ansteel.fiber.mapper.FiberMapper">
+    <insert id="insertRawData" parameterType="com.ansteel.fiber.dto.FiberRawUploadDTO">
+        INSERT INTO fiber_raw_data
+        (sensor_id, device_no, fiber_no, raw_value, wavelength, wavelength_shift, intensity, collect_time, create_time, deleted)
+        VALUES
+        (#{sensorId}, #{deviceNo}, #{fiberNo}, #{rawValue}, #{wavelength}, #{wavelengthShift}, #{intensity}, #{collectTime}, NOW(), 0)
+    </insert>
+    <select id="selectLatestRaw" resultType="com.ansteel.fiber.vo.FiberRawVO">
+        SELECT sensor_id AS sensorId, device_no AS deviceNo, fiber_no AS fiberNo,
+               raw_value AS rawValue, wavelength AS wavelength, wavelength_shift AS wavelengthShift,
+               intensity AS intensity, collect_time AS collectTime
+        FROM fiber_raw_data
+        WHERE sensor_id = #{sensorId} AND deleted = 0
+        ORDER BY collect_time DESC
+        LIMIT 1
+    </select>
+    <select id="selectHistoryRaw" resultType="com.ansteel.fiber.vo.FiberRawVO">
+        SELECT sensor_id AS sensorId, device_no AS deviceNo, fiber_no AS fiberNo,
+               raw_value AS rawValue, wavelength AS wavelength, wavelength_shift AS wavelengthShift,
+               intensity AS intensity, collect_time AS collectTime
+        FROM fiber_raw_data
+        WHERE sensor_id = #{sensorId} AND deleted = 0
+        <if test="startTime != null">AND collect_time &gt;= #{startTime}</if>
+        <if test="endTime != null">AND collect_time &lt;= #{endTime}</if>
+        ORDER BY collect_time ASC
+        LIMIT #{limit}
+    </select>
+</mapper>
