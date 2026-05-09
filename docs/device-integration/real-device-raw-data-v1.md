@@ -19,6 +19,8 @@ This version only covers the following modules:
 2. `fiber` raw data module for OS-265
 3. `vibration-dat` raw data module
 
+The document set only records fields that are currently accepted by the DTOs and persisted by the Mapper XML. Extra sample fields used during manual verification are intentionally omitted.
+
 ## Non-Goals
 
 - No complex algorithm parsing
@@ -65,4 +67,3 @@ Example:
 - SQL tables: passed
 - 9 APIs: passed
 - Ready to submit: yes
-

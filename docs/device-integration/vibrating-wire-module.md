@@ -37,17 +37,11 @@ Typical raw intake fields include:
 
 - `sensorId`
 - `deviceNo`
-- `devType`
 - `channelNo`
-- `collectOption`
-- `sensorStatus`
-- `frequencyStatus`
-- `temperatureStatus`
 - `frequency`
-- `amplitude`
 - `temperature`
-- `sensorNo`
-- `rawHex`
+- `tension`
+- `strainValue`
 - `collectTime`
 
 ## Notes
@@ -55,4 +49,4 @@ Typical raw intake fields include:
 - No advanced calibration logic is included
 - No architecture change is required
 - The module is testable through black-box HTTP requests
-
+- The current DTO contract excludes `devType`, `collectOption`, `sensorStatus`, `frequencyStatus`, `temperatureStatus`, `amplitude`, `sensorNo`, and `rawHex`.

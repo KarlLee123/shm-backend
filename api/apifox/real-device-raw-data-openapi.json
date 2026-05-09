@@ -11,47 +11,31 @@
     }
   ],
   "tags": [
-    {
-      "name": "vibrating-wire"
-    },
-    {
-      "name": "fiber"
-    },
-    {
-      "name": "vibration-dat"
-    }
+    { "name": "vibrating-wire" },
+    { "name": "fiber" },
+    { "name": "vibration-dat" }
   ],
   "paths": {
     "/api/sensor/vibrating-wire/raw/upload": {
       "post": {
         "summary": "Upload vibrating-wire raw data",
         "operationId": "uploadVibratingWireRawData",
-        "tags": [
-          "vibrating-wire"
-        ],
+        "tags": ["vibrating-wire"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VibratingWireUploadRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/VibratingWireUploadRequest" },
               "examples": {
                 "default": {
                   "value": {
                     "sensorId": "VW-CH01",
                     "deviceNo": "0519",
-                    "devType": "000A",
-                    "channelNo": 1,
-                    "collectOption": "7F",
-                    "sensorStatus": 0,
-                    "frequencyStatus": 0,
-                    "temperatureStatus": 0,
+                    "channelNo": "1",
                     "frequency": 1502.36,
-                    "amplitude": 42.51,
                     "temperature": 26.8,
-                    "sensorNo": "00000001",
-                    "rawHex": "000A051981017F0044BC6637442ABB86419F800000000000083CFD",
+                    "tension": 0,
+                    "strainValue": 0,
                     "collectTime": "2026-05-09 23:01:00"
                   }
                 }
@@ -64,14 +48,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultVoid"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": null
-                }
+                "schema": { "$ref": "#/components/schemas/ResultVoid" },
+                "example": { "code": 200, "message": "success", "data": null }
               }
             }
           }
@@ -82,23 +60,14 @@
       "post": {
         "summary": "Query latest vibrating-wire raw data",
         "operationId": "getLatestVibratingWireRawData",
-        "tags": [
-          "vibrating-wire"
-        ],
+        "tags": ["vibrating-wire"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SensorQueryRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/SensorQueryRequest" },
               "examples": {
-                "default": {
-                  "value": {
-                    "sensorId": "VW-CH01",
-                    "limit": 10
-                  }
-                }
+                "default": { "value": { "sensorId": "VW-CH01", "limit": 10 } }
               }
             }
           }
@@ -108,14 +77,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObject"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": {}
-                }
+                "schema": { "$ref": "#/components/schemas/ResultObject" },
+                "example": { "code": 200, "message": "success", "data": {} }
               }
             }
           }
@@ -126,16 +89,12 @@
       "post": {
         "summary": "Query vibrating-wire raw data history",
         "operationId": "getVibratingWireRawDataHistory",
-        "tags": [
-          "vibrating-wire"
-        ],
+        "tags": ["vibrating-wire"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HistoryQueryRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/HistoryQueryRequest" },
               "examples": {
                 "default": {
                   "value": {
@@ -154,14 +113,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultArray"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": []
-                }
+                "schema": { "$ref": "#/components/schemas/ResultArray" },
+                "example": { "code": 200, "message": "success", "data": [] }
               }
             }
           }
@@ -172,16 +125,12 @@
       "post": {
         "summary": "Upload fiber raw data",
         "operationId": "uploadFiberRawData",
-        "tags": [
-          "fiber"
-        ],
+        "tags": ["fiber"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FiberUploadRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/FiberUploadRequest" },
               "examples": {
                 "default": {
                   "value": {
@@ -189,14 +138,10 @@
                     "deviceNo": "OS-265",
                     "fiberNo": "OS-265",
                     "channelNo": 1,
-                    "wavelengthShift": 1532.123,
-                    "intensity": 123.4,
                     "rawValue": 1532.123,
                     "wavelength": 1532.123,
-                    "physicalValue": 12.35,
-                    "unit": "microstrain",
-                    "dataType": "STRAIN",
-                    "rawPayload": "CH1,1532.123,12.35",
+                    "wavelengthShift": 1532.123,
+                    "intensity": 123.4,
                     "collectTime": "2026-05-09 23:02:00"
                   }
                 }
@@ -209,14 +154,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultVoid"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": null
-                }
+                "schema": { "$ref": "#/components/schemas/ResultVoid" },
+                "example": { "code": 200, "message": "success", "data": null }
               }
             }
           }
@@ -227,23 +166,14 @@
       "post": {
         "summary": "Query latest fiber raw data",
         "operationId": "getLatestFiberRawData",
-        "tags": [
-          "fiber"
-        ],
+        "tags": ["fiber"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SensorQueryRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/SensorQueryRequest" },
               "examples": {
-                "default": {
-                  "value": {
-                    "sensorId": "FBG-CH01",
-                    "limit": 10
-                  }
-                }
+                "default": { "value": { "sensorId": "FBG-CH01", "limit": 10 } }
               }
             }
           }
@@ -253,14 +183,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObject"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": {}
-                }
+                "schema": { "$ref": "#/components/schemas/ResultObject" },
+                "example": { "code": 200, "message": "success", "data": {} }
               }
             }
           }
@@ -271,16 +195,12 @@
       "post": {
         "summary": "Query fiber raw data history",
         "operationId": "getFiberRawDataHistory",
-        "tags": [
-          "fiber"
-        ],
+        "tags": ["fiber"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HistoryQueryRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/HistoryQueryRequest" },
               "examples": {
                 "default": {
                   "value": {
@@ -299,14 +219,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultArray"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": []
-                }
+                "schema": { "$ref": "#/components/schemas/ResultArray" },
+                "example": { "code": 200, "message": "success", "data": [] }
               }
             }
           }
@@ -317,16 +231,12 @@
       "post": {
         "summary": "Upload vibration DAT raw file metadata",
         "operationId": "uploadVibrationDatRawData",
-        "tags": [
-          "vibration-dat"
-        ],
+        "tags": ["vibration-dat"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VibrationDatUploadRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/VibrationDatUploadRequest" },
               "examples": {
                 "default": {
                   "value": {
@@ -336,15 +246,8 @@
                     "channelNo": 1,
                     "fileName": "vibration_20260509_230300.dat",
                     "fileSize": 2048,
-                    "version": 1,
-                    "sampleFreq": 1000.0,
-                    "filterFreq": 200.0,
-                    "gainAmplifier": 1,
-                    "triggerType": 4,
-                    "dataLength": 4000,
-                    "dataCount": 1000,
+                    "sampleRate": 1000.0,
                     "rawContent": "base64-or-raw-content-placeholder",
-                    "dataJson": "[0.012,0.018,0.015,0.009]",
                     "collectTime": "2026-05-09 23:03:00"
                   }
                 }
@@ -357,14 +260,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultVoid"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": null
-                }
+                "schema": { "$ref": "#/components/schemas/ResultVoid" },
+                "example": { "code": 200, "message": "success", "data": null }
               }
             }
           }
@@ -375,23 +272,14 @@
       "post": {
         "summary": "Query latest vibration DAT raw record",
         "operationId": "getLatestVibrationDatRawData",
-        "tags": [
-          "vibration-dat"
-        ],
+        "tags": ["vibration-dat"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SensorQueryRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/SensorQueryRequest" },
               "examples": {
-                "default": {
-                  "value": {
-                    "sensorId": "VD-CH01",
-                    "limit": 10
-                  }
-                }
+                "default": { "value": { "sensorId": "VD-CH01", "limit": 10 } }
               }
             }
           }
@@ -401,14 +289,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultObject"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": {}
-                }
+                "schema": { "$ref": "#/components/schemas/ResultObject" },
+                "example": { "code": 200, "message": "success", "data": {} }
               }
             }
           }
@@ -419,16 +301,12 @@
       "post": {
         "summary": "Query vibration DAT raw history",
         "operationId": "getVibrationDatRawDataHistory",
-        "tags": [
-          "vibration-dat"
-        ],
+        "tags": ["vibration-dat"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HistoryQueryRequest"
-              },
+              "schema": { "$ref": "#/components/schemas/HistoryQueryRequest" },
               "examples": {
                 "default": {
                   "value": {
@@ -447,14 +325,8 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultArray"
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": []
-                }
+                "schema": { "$ref": "#/components/schemas/ResultArray" },
+                "example": { "code": 200, "message": "success", "data": [] }
               }
             }
           }
@@ -467,86 +339,44 @@
       "ResultVoid": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "integer",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "example": "success"
-          },
-          "data": {
-            "nullable": true
-          }
+          "code": { "type": "integer", "example": 200 },
+          "message": { "type": "string", "example": "success" },
+          "data": { "nullable": true }
         }
       },
       "ResultObject": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "integer",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "example": "success"
-          },
-          "data": {
-            "type": "object"
-          }
+          "code": { "type": "integer", "example": 200 },
+          "message": { "type": "string", "example": "success" },
+          "data": { "type": "object" }
         }
       },
       "ResultArray": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "integer",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "example": "success"
-          },
+          "code": { "type": "integer", "example": 200 },
+          "message": { "type": "string", "example": "success" },
           "data": {
             "type": "array",
-            "items": {
-              "type": "object"
-            }
+            "items": { "type": "object" }
           }
         }
       },
       "SensorQueryRequest": {
         "type": "object",
         "properties": {
-          "sensorId": {
-            "type": "string",
-            "example": "VW-CH01"
-          },
-          "limit": {
-            "type": "integer",
-            "example": 10
-          }
+          "sensorId": { "type": "string", "example": "VW-CH01" },
+          "limit": { "type": "integer", "example": 10 }
         }
       },
       "HistoryQueryRequest": {
         "type": "object",
         "properties": {
-          "sensorId": {
-            "type": "string",
-            "example": "VW-CH01"
-          },
-          "startTime": {
-            "type": "string",
-            "example": "2026-05-09 00:00:00"
-          },
-          "endTime": {
-            "type": "string",
-            "example": "2026-05-09 23:59:59"
-          },
-          "limit": {
-            "type": "integer",
-            "example": 10
-          }
+          "sensorId": { "type": "string", "example": "VW-CH01" },
+          "startTime": { "type": "string", "example": "2026-05-09 00:00:00" },
+          "endTime": { "type": "string", "example": "2026-05-09 23:59:59" },
+          "limit": { "type": "integer", "example": 10 }
         }
       },
       "VibratingWireUploadRequest": {
@@ -554,17 +384,11 @@
         "properties": {
           "sensorId": { "type": "string", "example": "VW-CH01" },
           "deviceNo": { "type": "string", "example": "0519" },
-          "devType": { "type": "string", "example": "000A" },
-          "channelNo": { "type": "integer", "example": 1 },
-          "collectOption": { "type": "string", "example": "7F" },
-          "sensorStatus": { "type": "integer", "example": 0 },
-          "frequencyStatus": { "type": "integer", "example": 0 },
-          "temperatureStatus": { "type": "integer", "example": 0 },
+          "channelNo": { "type": "string", "example": "1" },
           "frequency": { "type": "number", "example": 1502.36 },
-          "amplitude": { "type": "number", "example": 42.51 },
           "temperature": { "type": "number", "example": 26.8 },
-          "sensorNo": { "type": "string", "example": "00000001" },
-          "rawHex": { "type": "string", "example": "000A051981017F0044BC6637442ABB86419F800000000000083CFD" },
+          "tension": { "type": "number", "example": 0 },
+          "strainValue": { "type": "number", "example": 0 },
           "collectTime": { "type": "string", "example": "2026-05-09 23:01:00" }
         }
       },
@@ -575,14 +399,10 @@
           "deviceNo": { "type": "string", "example": "OS-265" },
           "fiberNo": { "type": "string", "example": "OS-265" },
           "channelNo": { "type": "integer", "example": 1 },
-          "wavelengthShift": { "type": "number", "example": 1532.123 },
-          "intensity": { "type": "number", "example": 123.4 },
           "rawValue": { "type": "number", "example": 1532.123 },
           "wavelength": { "type": "number", "example": 1532.123 },
-          "physicalValue": { "type": "number", "example": 12.35 },
-          "unit": { "type": "string", "example": "microstrain" },
-          "dataType": { "type": "string", "example": "STRAIN" },
-          "rawPayload": { "type": "string", "example": "CH1,1532.123,12.35" },
+          "wavelengthShift": { "type": "number", "example": 1532.123 },
+          "intensity": { "type": "number", "example": 123.4 },
           "collectTime": { "type": "string", "example": "2026-05-09 23:02:00" }
         }
       },
@@ -595,15 +415,8 @@
           "channelNo": { "type": "integer", "example": 1 },
           "fileName": { "type": "string", "example": "vibration_20260509_230300.dat" },
           "fileSize": { "type": "integer", "example": 2048 },
-          "version": { "type": "integer", "example": 1 },
-          "sampleFreq": { "type": "number", "example": 1000.0 },
-          "filterFreq": { "type": "number", "example": 200.0 },
-          "gainAmplifier": { "type": "integer", "example": 1 },
-          "triggerType": { "type": "integer", "example": 4 },
-          "dataLength": { "type": "integer", "example": 4000 },
-          "dataCount": { "type": "integer", "example": 1000 },
+          "sampleRate": { "type": "number", "example": 1000.0 },
           "rawContent": { "type": "string", "example": "base64-or-raw-content-placeholder" },
-          "dataJson": { "type": "string", "example": "[0.012,0.018,0.015,0.009]" },
           "collectTime": { "type": "string", "example": "2026-05-09 23:03:00" }
         }
       }

@@ -39,14 +39,10 @@ Typical raw intake fields include:
 - `deviceNo`
 - `fiberNo`
 - `channelNo`
-- `wavelengthShift`
-- `intensity`
 - `rawValue`
 - `wavelength`
-- `physicalValue`
-- `unit`
-- `dataType`
-- `rawPayload`
+- `wavelengthShift`
+- `intensity`
 - `collectTime`
 
 ## Notes
@@ -54,4 +50,4 @@ Typical raw intake fields include:
 - No fixed mapping to strain, displacement, or acceleration
 - No complex protocol parsing
 - Only raw data access preparation is covered in this version
-
+- The current DTO contract excludes `physicalValue`, `unit`, `dataType`, and `rawPayload`.

@@ -41,19 +41,12 @@ Typical raw intake fields include:
 - `filePath`
 - `fileName`
 - `fileSize`
-- `version`
 - `sampleFreq`
-- `filterFreq`
-- `gainAmplifier`
-- `triggerType`
-- `dataLength`
-- `dataCount`
 - `rawContent`
-- `dataJson`
 - `collectTime`
 
 ## Notes
 
 - No complex DAT parsing is included
 - Only interface and storage preparation is covered
-
+- The current DTO contract excludes `version`, `filterFreq`, `gainAmplifier`, `triggerType`, `dataLength`, `dataCount`, and `dataJson`.
